@@ -11,7 +11,7 @@ from matplotlib import cbook
 def main():
 
 	# Qiime2 script version
-	qiime2_script_version = 1.1
+	qiime2_script_version = 1.2
 
 	### Input arguments
 	options = parseArguments()
@@ -69,7 +69,7 @@ def main():
 		with open(f"{options.output}/Metadata/metadata.tsv", "w") as metadata_out:
 			metadata_out.write("#SampleID" + "	" + "Proxy" + "\n")
 			for ID in file_list:
-				metadata_out.write(ID + "	" + random.choice("XYZ") + "\n")
+				metadata_out.write(ID + "	" + random.choice("ABCXYZ") + "\n")
 
 
 ### Import data
@@ -219,8 +219,11 @@ def main():
 		output_classifier = f"{options.output}/Classify/{options.amplicon}-taxonomy"
 		print("Classifying samples.")
 
-		# Classifications command
-		subprocess.call(f"qiime feature-classifier classify-sklearn --i-classifier {options.q2_classifier} --i-reads {input_classifier} --o-classification {output_classifier} --p-confidence {options.classify_conf} --p-n-jobs {options.classify_threads}", shell = True)
+		# Classification command
+		if(options.classifier == "nb"):
+			subprocess.call(f"qiime feature-classifier classify-sklearn --i-classifier {options.q2_classifier} --i-reads {input_classifier} --o-classification {output_classifier} --p-confidence {options.classify_conf} --p-n-jobs {options.classify_threads}", shell = True)
+		elif(options.classifier == "vsearch"):
+			subprocess.call(f"qiime feature-classifier classify-consensus-vsearch --i-query {input_classifier} --i-reference-reads {options.vsearch_db} --i-reference-taxonomy {options.vsearch_taxonomy} --o-classification {output_classifier} --p-threads {options.classify_threads}", shell = True)
 		subprocess.call(f"qiime metadata tabulate --m-input-file {output_classifier}.qza --o-visualization {output_classifier}.qzv", shell = True)
 
 		print(f"Samples classified {options.output}")
@@ -372,7 +375,10 @@ def main():
 	print("Printing Qiime2 pipeline version information")
 	with open(f"{options.output}/Qiime2Pipeline_params.txt", "w") as qiime2_log:
 		qiime2_log.write(f"Qiime2 Pipeline Version: {qiime2_script_version}\n")
-		qiime2_log.write(f"Classifier file:  {options.q2_classifier}\n")
+		qiime2_log.write(f"Classifier:  {options.classifier}\n")
+		qiime2_log.write(f"Vsearch classifier database:  {options.vsearch_db}\n")
+		qiime2_log.write(f"cVsearch classifier taxonomy:  {options.vsearch_taxonomy}\n")
+		qiime2_log.write(f"NB classifier file:  {options.q2_classifier}\n")
 		qiime2_log.write(f"Amplicon: {options.amplicon}\n")
 		qiime2_log.write(f"Dada2 truncation lengths: forward - {trunclen_f} reverse - {trunclen_r}\n")
 		qiime2_log.write(f"Dada2 expected errors: forward - 2 reverse - {options.dada2_EE_rev}\n")
@@ -396,7 +402,7 @@ def parseArguments():
 	parser.add_argument("--output", help = "This where the output data will be generated.", required = True)
 
 	# Main arguments
-	parser.add_argument("--q2_classifier", help = "This is the path to the classifer.", default = "/biostore/bigbio_00/databases/classifiers/Silva_138_16S_qiime2.20.6/silva-138-99-515-806-nb-classifier.qza")
+	parser.add_argument("--q2_classifier", help = "This is the path to the classifier.", default = "/biostore/bigbio_00/databases/classifiers/Silva_138_16S_qiime2.20.6/silva-138-99-515-806-nb-classifier.qza")
 	parser.add_argument("--amplicon", help = "This is a reference to the primers used for the marker region. Please update the dictionary in the script for more choices.", choices = ["16S", "ITS", "18S", "APTA", "BF3BR2", "mlCOIintF-jgHCO2198", "rbcla", "trnL", "ITS6-5.8S-1R"])
 	parser.add_argument("--primer_file", help = "Tab separated list of the amplicon and the primers used. Follow the example in the example provided. Default /home/smcgreig/Scripts/Qiime2/primers.tsv", default = "/home/smcgreig/Scripts/Qiime2/primers.tsv")
 
@@ -428,9 +434,16 @@ def parseArguments():
 	parser.add_argument("--dada2_EE_rev", help = "The maximum number of expected errors in the reverse read. Default 2.", default = "2")
 	parser.add_argument("--dada2_minfold", help = "The minimum abundance of potential parents of a sequence being tested as chimeric, expressed as a fold-change versus the abundance of the sequence being tested . Default 1.", default = "1")
 
-	# Classify arguments
-	parser.add_argument("--classify_conf", help = "The confidence required for a successful classification. Default 0.7.", default = "0.7")
+	# General classifier arguments
+	parser.add_argument("--classifier", help = "The classifier to run. Default nb classifier.", default = "nb", choices = ["nb", "vsearch"])
 	parser.add_argument("--classify_threads", help = "The number of threads to run the classification tool with. Default 60.", default = 60)
+
+	# NB classifier arguments
+	parser.add_argument("--classify_conf", help = "The confidence required for a successful classification. Default 0.7.", default = "0.7")
+
+	# Vsearch classification arguments
+	parser.add_argument("--vsearch_db", help = "The path to the database sequence file. Default /data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_seqs_uniq.qza", default = "/data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_seqs_uniq.qza")
+	parser.add_argument("--vsearch_taxonomy", help = "The path to the database taxonomy file. Default /data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_taxa_uniq.qza", default = "/data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_taxa_uniq.qza")
 
 
 	return parser.parse_args()
