@@ -2,9 +2,8 @@
 setwd("U:/Analysis/R/Soil") # Change with porject directory
 # Loading libraries 
 set.seed(100)
-packages <- c('tidyverse', 'ggpubr', 'rstatix', 'readr', 'qiime2R', 'SRS', 'vegan', 'microbiome',
-              'phyloseq', 'plyr', 'dplyr', 'pairwiseAdonis', 'cowplot', 'ggvenn', 'microbial', 'UpSetR',
-              'mltools', 'data.table')
+packages <- c('tidyverse', 'ggpubr', 'rstatix', 'readr', 'qiime2R', 'SRS', 'vegan',
+              'phyloseq', 'plyr', 'dplyr', 'pairwiseAdonis', 'cowplot')
 sapply(packages, require, character.only = TRUE)
 
 #Importing metadata files
