@@ -50,7 +50,7 @@ pairwise.numbers.Treatment <- numbers_ASVs %>%
   adjust_pvalue(method = "BH") %>%
   add_significance() 
 
-#Exort statistical result 
+#Export statistical result 
 dir.create("Stats")
 write.csv(KW.numbers.Treatment, file = "Stats/KW.numbers.Treatment.csv", row.names = F)
 write.csv(pairwise.numbers.Treatment, file = "Stats/pairwise.numbers.Treatment.csv", row.names = F)
