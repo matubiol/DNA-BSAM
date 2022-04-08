@@ -21,11 +21,11 @@ __9.__ Filter (either include or exclude) based on taxa specific to each amplico
 
 __10.__ Generate bar plots.
 
-__11.__ Generate Shannon diversity indicies.
+__11.__ Generate observed_features and Shannon diversity indices.
 
 __12.__ Calculate Cmin for SRS rarefaction.
 
-__13.__ Generate observed_features, faith pd, pileou evenness and jaccard diversity outputs.
+__13.__ Generate faith pd, pileou evenness and jaccard diversity outputs.
 
 __Installation__
 
