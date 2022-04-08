@@ -25,7 +25,7 @@ __11.__ Generate Shannon diversity indicies.
 
 __12.__ Calculate Cmin for SRS rarefaction.
 
-__13.__ Generate faith pd, pileou evenness and jaccard diversity outputs.
+__13.__ Generate observed_features, faith pd, pileou evenness and jaccard diversity outputs.
 
 __Installation__
 
