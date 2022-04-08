@@ -146,13 +146,13 @@ plot_ujaccard_ITS <- plot_ordination(ps_ITS, PCoA_ujaccard_ITS, color = "Treatme
   scale_colour_brewer(type="qual", palette="Set1")
 
 plot_wjaccard_16S <- plot_ordination(ps_16S, PCoA_wjaccard_16S, color = "Treatment",
-                                     title = "Abundance - 16S") +
+                                     title = "Abundances - 16S") +
   stat_ellipse(type = "norm", linetype = 2, aes(group = Treatment)) +
   stat_ellipse(type = "t", aes(group = Treatment)) +
   scale_colour_brewer(type="qual", palette="Set1")
 
 plot_wjaccard_ITS <- plot_ordination(ps_ITS, PCoA_wjaccard_ITS, color = "Treatment",
-                                     title = "Abundance - ITS") +
+                                     title = "Abundances - ITS") +
   stat_ellipse(type = "norm", linetype = 2, aes(group = Treatment)) +
   stat_ellipse(type = "t", aes(group = Treatment)) +
   scale_colour_brewer(type="qual", palette="Set1")
