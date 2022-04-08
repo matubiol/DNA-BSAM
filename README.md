@@ -23,7 +23,7 @@ __10.__ Generate bar plots.
 
 __11.__ Generate Shannon diversity index.
 
-__12.__ Calculate Cmin for SRS rarefaction.
+__12.__ Calculate Cmin for SRS normalization.
 
 __13.__ Generate observed_features, faith pd, pileou evenness and jaccard diversity outputs.
 
