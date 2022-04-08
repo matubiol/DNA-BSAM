@@ -47,7 +47,7 @@ python Scripts/Qiime2.py --input 16S_project/raw_data/ --output 16S_project/ --q
 Parameters:
 
 ```
-usage: Qiime2.py [-h] --input INPUT --output OUTPUT
+usage: DNA-BSAM.py [-h] --input INPUT --output OUTPUT
                  [--q2_classifier Q2_CLASSIFIER]
                  [--amplicon {16S,ITS,18S,APTA,BF3BR2,mlCOIintF-jgHCO2198,rbcla,trnL,ITS6-5.8S-1R}]
                  [--primer_file PRIMER_FILE] [--create_dirs {Y,N}]
