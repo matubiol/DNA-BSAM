@@ -54,9 +54,9 @@ usage: DNA-BSAM.py [-h] --input INPUT --output OUTPUT
                  [--amplicon {16S,ITS,18S,APTA,BF3BR2,mlCOIintF-jgHCO2198,rbcla,trnL,ITS6-5.8S-1R}]
                  [--primer_file PRIMER_FILE] [--create_dirs {Y,N}]
                  [--metadata {Y,N}] [--import_q2 {Y,N}] [--cutadapt {Y,N}]
-                 [--dada2 {Y,N}] [--chimera {Y,N}] [--features {Y,N}]
+                 [--dada2 {Y,N}] [--chimera {Y,N}] [--features {Y,N}] [--cluster {Y,N}]
                  [--filter {Y,N}] [--classify {Y,N}] [--barplots {Y,N}]
-                 [--shannon {Y,N}] [--srs {Y,N}] [--diversity {Y,N}]
+                 [--shannon {Y,N}] [--richness {Y,N}] [--srs {Y,N}]
                  [--cutadapt_times CUTADAPT_TIMES]
                  [--cutadapt_error CUTADAPT_ERROR] [--filter_n FILTER_N]
                  [--filter_list FILTER_LIST]
@@ -91,12 +91,13 @@ optional arguments:
   --chimera {Y,N}       Run uchime for chimera removal. Default Y.
   --features {Y,N}      Generate features from chimera removed data. Default
                         Y.
+  --cluster {Y,N}       Generate clustered features. Default Y.
   --filter {Y,N}        Filter samples. Default Y.
   --classify {Y,N}      Classify features. Default Y.
   --barplots {Y,N}      Generate barplots. Default Y.
   --shannon {Y,N}       Generate shannon alpha diversity stats. Default Y.
   --srs {Y,N}           Run SRS. Default Y.
-  --diversity {Y,N}     Run diversity metrics. Default Y.
+  --richness {Y,N}      Calculate taxa richness. Default Y.
   --cutadapt_times CUTADAPT_TIMES
                         The number of times to look for primers to trim in the
                         reads. Default 2.
