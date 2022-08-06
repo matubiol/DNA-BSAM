@@ -46,12 +46,12 @@ def main():
 		os.mkdir(f"{options.output}/Dada2")
 		os.mkdir(f"{options.output}/Filtered_data")
 		os.mkdir(f"{options.output}/Features")
+		os.mkdir(f"{options.output}/Clustered_features")
 		os.mkdir(f"{options.output}/Classify")
 		os.mkdir(f"{options.output}/Barplots")
 		os.mkdir(f"{options.output}/Shannon")
 		os.mkdir(f"{options.output}/SRS")
-		os.mkdir(f"{options.output}/Tree")
-		os.mkdir(f"{options.output}/Diversity")
+		os.mkdir(f"{options.output}/Richness")
 
 	else:
 		print("Directory structure creation skipped.")
@@ -164,9 +164,26 @@ def main():
 		# Feature generation command
 		subprocess.call(f"qiime feature-table filter-seqs --i-data {input_features_repseq} --m-metadata-file {input_chimeras} --o-filtered-data {output_features_repseq}.qza", shell = True)
 		subprocess.call(f"qiime feature-table filter-features --i-table {input_features_table} --m-metadata-file {input_chimeras}  --o-filtered-table {output_features_table}.qza", shell = True)
-		subprocess.call(f"qiime feature-table tabulate-seqs --i-data {output_features_repseq}.qza --o-visualization {output_features_repseq}.qzv", shell = True)
-		subprocess.call(f"qiime feature-table summarize --i-table {output_features_table}.qza --o-visualization {output_features_table}.qzv", shell = True)
+		
+		print(f"Feature tables created for {options.output}")
 
+	else:
+		print("Feature table creation skipped.")
+
+### Cluster features
+	if(options.cluster == "Y"):
+		input_features_table = f"{options.output}/Features/{options.amplicon}-table"
+		input_features_sequences = f"{options.output}/Features/{options.amplicon}-repseq"
+		output_clustered_table = f"{options.output}/Clustered_features/{options.amplicon}-table"
+		output_clustered_sequences = f"{options.output}/Clustered_features/{options.amplicon}-repseq"
+
+		print("Clustering features.")
+
+		# Feature generation command
+		subprocess.call(f"qiime vsearch cluster-features-de-novo --i-table {input_features_table} --i-sequences {input_features_sequences} --p-perc-identity 0.98 --o-clustered-table {output_clustered_table}.qza --o-clustered-sequences {output_clustered_sequences}.qza", shell = True)
+		subprocess.call(f"qiime feature-table summarize --i-table {output_clustered_table}.qza --o-visualization {output_clustered_table}.qzv", shell = True)
+		subprocess.call(f"qiime feature-table tabulate-seqs --i-data {output_clustered_sequences}.qza --o-visualization {output_clustered_sequences}.qzv", shell = True)
+		
 		print(f"Feature tables created for {options.output}")
 
 	else:
@@ -175,7 +192,7 @@ def main():
 ### Filter samples
 
 	if(options.filter == "Y"):
-		input_features_dir = f"{options.output}/Features/"
+		input_features_dir = f"{options.output}/Clustered_features/"
 		output_features = f"{options.output}/Filtered_data/ID_filtered_table"
 		print("Filtering sample IDs based on reads.")
 
@@ -215,7 +232,7 @@ def main():
 ### Classify features
 
 	if(options.classify == "Y"):
-		input_classifier = f"{options.output}/Features/{options.amplicon}-repseq.qza"
+		input_classifier = f"{options.output}/Clustered_features/{options.amplicon}-repseq.qza"
 		output_classifier = f"{options.output}/Classify/{options.amplicon}-taxonomy"
 		print("Classifying samples.")
 
@@ -324,51 +341,24 @@ def main():
 	else:
 		print("SRS table generation skipped.")
 
-### Diversity
+### Taxa richness
 
-	if(options.diversity == "Y"):
+	if(options.richness == "Y"):
 		
-		# Tree variables
-		input_repseq = f"{options.output}/Features/{options.amplicon}-repseq.qza"
-		output_repseq_aln = f"{options.output}/Tree/{options.amplicon}-aligned-repseq.qza"
-		output_repseq_mask_aln = f"{options.output}/Tree/{options.amplicon}-masked-aligned-repseq.qza"
-		output_rooted_tree = f"{options.output}/Tree/rooted_tree.qza"
-		output_unrooted_tree = f"{options.output}/Tree/unrooted_tree.qza"
-		
-		# Diversity variables
+		# Richness variables
 		input_table = f"{options.output}/SRS/SRS_table.qza"
 		metadata = f"{options.output}/Metadata/metadata.tsv"
-		output_faith = f"{options.output}/Diversity/faith_pd_vector"
-		output_evenness = f"{options.output}/Diversity/evenness_vector"
-		output_features = f"{options.output}/Diversity/observed_features"
-		output_jaccard = f"{options.output}/Diversity/jaccard"
-		print("Generating phylogenetic trees and running beta diversity metrics")
+		output_numbers = f"{options.output}/Richness/observed_features"
+		print("Obtaining Taxa richness")
 
-		# Tree
-		subprocess.call(f"qiime phylogeny align-to-tree-mafft-fasttree --i-sequences {input_repseq} --o-alignment {output_repseq_aln} --o-masked-alignment {output_repseq_mask_aln} --o-tree {output_unrooted_tree} --o-rooted-tree {output_rooted_tree}", shell = True)
-
-		# Diversity
-		# Faith
-		subprocess.call(f"qiime diversity-lib faith-pd --i-table {input_table} --i-phylogeny {output_rooted_tree} --o-vector {output_faith}.qza", shell = True)
-		subprocess.call(f"qiime diversity alpha-group-significance --i-alpha-diversity {output_faith}.qza --m-metadata-file {metadata} --o-visualization {output_faith}-group-significance.qzv", shell = True)
-
-		# Pielou evenness
-		subprocess.call(f"qiime diversity-lib pielou-evenness --i-table {input_table} --o-vector {output_evenness}.qza", shell = True)
-		subprocess.call(f"qiime diversity alpha-group-significance --i-alpha-diversity {output_evenness}.qza --m-metadata-file {metadata} --o-visualization {output_evenness}-group-significance.qzv", shell = True)
-
-		# Observed features
+		# Taxa richness command
 		subprocess.call(f"qiime diversity alpha --i-table {input_table} --p-metric 'observed_features' --o-alpha-diversity {output_features}.qza", shell = True)
 		subprocess.call(f"qiime diversity alpha-group-significance --i-alpha-diversity {output_features}.qza --m-metadata-file {options.output}/Metadata/metadata.tsv --o-visualization {output_features}.qzv", shell = True)
 
-		# Jaccard
-		subprocess.call(f"qiime diversity-lib jaccard --i-table {input_table} --p-n-jobs auto --o-distance-matrix {output_jaccard}.qza", shell = True)
-		subprocess.call(f"qiime diversity pcoa --i-distance-matrix {output_jaccard}.qza --o-pcoa {output_jaccard}-pcoa.qza", shell = True)
-		subprocess.call(f"qiime emperor plot --i-pcoa {output_jaccard}-pcoa.qza --m-metadata-file {metadata} --o-visualization {output_jaccard}.qzv", shell = True)
-
-		print(f"Beta diversity generated for {options.output}")
+		print(f"Richness generated for {options.output}")
 
 	else:
-		print("Beta diversity generation skipped.")
+		print("Taxa richness generation skipped.")
 
 ### Program Details
 
@@ -414,12 +404,13 @@ def parseArguments():
 	parser.add_argument("--dada2", help = "Run dada2. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--chimera", help = "Run uchime for chimera removal. Default Y.", choices = ["Y", "N"], default = "Y")	
 	parser.add_argument("--features", help = "Generate features from chimera removed data. Default Y.", choices = ["Y", "N"], default = "Y")
+	parser.add_argument("--cluster", help = "Generate clustered features. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--filter", help = "Filter samples. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--classify", help = "Classify features. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--barplots", help = "Generate barplots. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--shannon", help = "Generate shannon alpha diversity stats. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--srs", help = "Run SRS. Default Y.", choices = ["Y", "N"], default = "Y")
-	parser.add_argument("--diversity", help = "Run diversity metrics. Default Y.", choices = ["Y", "N"], default = "Y")
+	parser.add_argument("--richness", help = "Calculate taxa richness. Default Y.", choices = ["Y", "N"], default = "Y")
 
 	# Cutadapt arguments 
 	parser.add_argument("--cutadapt_times", help = "The number of times to look for primers to trim in the reads. Default 2.", default = "2")
