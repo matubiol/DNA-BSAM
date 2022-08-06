@@ -13,19 +13,21 @@ __5.__ Filter again for chimeras with Uchime.
 
 __6.__ Generate features.
 
-__7.__ Filter based on the number of reads.
+__7.__ Cluster features.
 
-__8.__ Classify features with a user specified feature classifier.
+__8.__ Filter based on the number of reads.
 
-__9.__ Filter (either include or exclude) based on taxa specific to each amplicon. Also generate a tabulated data output to the Metadata folder where feature ID, sequence, classification and confidence are recorded.
+__9.__ Classify features with a user specified feature classifier.
 
-__10.__ Generate bar plots.
+__10.__ Filter (either include or exclude) based on taxa specific to each amplicon. Also generate a tabulated data output to the Metadata folder where feature ID, sequence, classification and confidence are recorded.
 
-__11.__ Generate Shannon diversity index.
+__11.__ Generate bar plots.
 
-__12.__ Calculate Cmin for SRS normalization.
+__12.__ Generate Shannon diversity index.
 
-__13.__ Generate observed_features, faith pd, pileou evenness and jaccard diversity outputs.
+__13.__ Calculate Cmin for SRS normalization.
+
+__14.__ Generate taxa richness outputs.
 
 __Installation__
 
