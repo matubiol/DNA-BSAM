@@ -29,6 +29,8 @@ __13.__ Calculate Cmin for SRS normalization.
 
 __14.__ Claculate taxa richness.
 
+__15.__ Constione with DNA-BSAM-R.R
+
 __Installation__
 
 This pipeline should be run in a Qiime2 conda environment. Currently tested environments include Qiime2-2021.2.
