@@ -39,7 +39,7 @@ __Getting started__
 
 Create a directory for your project in the Qiime2 directory. Inside this new directory, create a raw_data directory and place your raw data there.
 
-Classifiers Classifiers can be trained for Qiime2 using the instructions located here https://docs.qiime2.org/2020.8/tutorials/feature-classifier/.
+Classifiers Classifiers can be trained for Qiime2 using the instructions located here https://https://docs.qiime2.org/2022.2/tutorials/feature-classifier/.
 
 Example usage:
 ```
