@@ -27,7 +27,7 @@ __12.__ Generate Shannon diversity index.
 
 __13.__ Calculate Cmin for SRS normalization.
 
-__14.__ Generate taxa richness outputs.
+__14.__ Claculate taxa richness.
 
 __Installation__
 
