@@ -108,7 +108,7 @@ def main():
 	else:
 		print("Cutadapt skipped.")
 
-### Run Dada2
+### Run DADA2
 	
 	trunclen_f = ""
 	trunclen_r = ""
@@ -392,23 +392,23 @@ def parseArguments():
 	parser.add_argument("--output", help = "This where the output data will be generated.", required = True)
 
 	# Main arguments
-	parser.add_argument("--q2_classifier", help = "This is the path to the classifier.", default = "/biostore/bigbio_00/databases/classifiers/Silva_138_16S_qiime2.20.6/silva-138-99-515-806-nb-classifier.qza")
+	parser.add_argument("--q2_classifier", help = "This is the path to the classifier.")
 	parser.add_argument("--amplicon", help = "This is a reference to the primers used for the marker region. Please update the dictionary in the script for more choices.", choices = ["16S", "ITS", "18S", "APTA", "BF3BR2", "mlCOIintF-jgHCO2198", "rbcla", "trnL", "ITS6-5.8S-1R"])
-	parser.add_argument("--primer_file", help = "Tab separated list of the amplicon and the primers used. Follow the example in the example provided. Default /home/smcgreig/Scripts/Qiime2/primers.tsv", default = "/home/smcgreig/Scripts/Qiime2/primers.tsv")
+	parser.add_argument("--primer_file", help = "Tab separated list of the amplicon and the primers used. Follow the example in the example provided")
 
 	# Extra arguments, useful for if a specific job has failed and you don't want to start from scratch
 	parser.add_argument("--create_dirs", help = "Creates the directory structure. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--metadata", help = "Create metadata file. Default Y.", choices = ["Y", "N"], default = "Y")
-	parser.add_argument("--import_q2", help = "Import data into qiime2. Default Y.", choices = ["Y", "N"], default = "Y")
-	parser.add_argument("--cutadapt", help = "Run cutadapt. Default Y.", choices = ["Y", "N"], default = "Y")
-	parser.add_argument("--dada2", help = "Run dada2. Default Y.", choices = ["Y", "N"], default = "Y")
-	parser.add_argument("--chimera", help = "Run uchime for chimera removal. Default Y.", choices = ["Y", "N"], default = "Y")	
+	parser.add_argument("--import_q2", help = "Import data into QIIME2. Default Y.", choices = ["Y", "N"], default = "Y")
+	parser.add_argument("--cutadapt", help = "Run Cutadapt. Default Y.", choices = ["Y", "N"], default = "Y")
+	parser.add_argument("--dada2", help = "Run DADA2. Default Y.", choices = ["Y", "N"], default = "Y")
+	parser.add_argument("--chimera", help = "Run UCHIME for chimera removal. Default Y.", choices = ["Y", "N"], default = "Y")	
 	parser.add_argument("--features", help = "Generate features from chimera removed data. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--cluster", help = "Generate clustered features. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--filter", help = "Filter samples. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--classify", help = "Classify features. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--barplots", help = "Generate barplots. Default Y.", choices = ["Y", "N"], default = "Y")
-	parser.add_argument("--shannon", help = "Generate shannon alpha diversity stats. Default Y.", choices = ["Y", "N"], default = "Y")
+	parser.add_argument("--shannon", help = "Generate Shannon diversity outcomes. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--srs", help = "Run SRS. Default Y.", choices = ["Y", "N"], default = "Y")
 	parser.add_argument("--richness", help = "Calculate taxa richness. Default Y.", choices = ["Y", "N"], default = "Y")
 
@@ -433,8 +433,8 @@ def parseArguments():
 	parser.add_argument("--classify_conf", help = "The confidence required for a successful classification. Default 0.7.", default = "0.7")
 
 	# Vsearch classification arguments
-	parser.add_argument("--vsearch_db", help = "The path to the database sequence file. Default /data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_seqs_uniq.qza", default = "/data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_seqs_uniq.qza")
-	parser.add_argument("--vsearch_taxonomy", help = "The path to the database taxonomy file. Default /data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_taxa_uniq.qza", default = "/data/bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi/18S_nhmmer_final_taxa_uniq.qza")
+	parser.add_argument("--vsearch_db", help = "The path to the database sequence file.")
+	parser.add_argument("--vsearch_taxonomy", help = "The path to the database taxonomy file.")
 
 
 	return parser.parse_args()
