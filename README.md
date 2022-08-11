@@ -45,13 +45,13 @@ Classifiers Classifiers can be trained for QIIME2 using the instructions located
 
 Example usage:
 ```
-python DNA-BSAM.py --input 16S_project/raw_data/ --output 16S_project/ --q2_classifier silva-138-99-515-806-nb-classifier.qza --amplicon 16S --cutadapt_times 2 --filter_m_ie exclude --filter_list mitochondria,chloroplast,archaea --classify_threads 20 --classify_conf 0.7
+python DNA-BSAM-QIIME2.py --input 16S_project/raw_data/ --output 16S_project/ --q2_classifier silva-138-99-515-806-nb-classifier.qza --amplicon 16S --cutadapt_times 2 --filter_m_ie exclude --filter_list mitochondria,chloroplast,archaea --classify_threads 20 --classify_conf 0.7
 ```
 
 Parameters:
 
 ```
-usage: DNA-BSAM.py [-h] --input INPUT --output OUTPUT
+usage: DNA-BSAM-QIIME2.py [-h] --input INPUT --output OUTPUT
                  [--q2_classifier Q2_CLASSIFIER]
                  [--amplicon {16S,ITS,18S,APTA,BF3BR2,mlCOIintF-jgHCO2198,rbcla,trnL,ITS6-5.8S-1R}]
                  [--primer_file PRIMER_FILE] [--create_dirs {Y,N}]
