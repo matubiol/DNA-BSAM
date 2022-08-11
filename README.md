@@ -3,13 +3,13 @@ This is essentially a wrapper script that helps to automate some of the QIIME2 s
 
 __1.__ Create directories and a proxy metadata file including just filenames and an arbitary metadata column.
 
-__2.__ Import the data into a Qiime2.
+__2.__ Import the data into a QIIME2.
 
 __3.__ Use cutadapt to trim primers. Select primers from amplicons currently supported in the primer.tsv file, or add your own
 
-__4.__ Truncate reads (requires manual input) and denoise with Dada2.
+__4.__ Truncate reads (requires manual input) and denoise with DADA2.
 
-__5.__ Filter again for chimeras with Uchime.
+__5.__ Filter again for chimeras with UCHIME.
 
 __6.__ Generate features.
 
@@ -23,29 +23,29 @@ __10.__ Filter (either include or exclude) based on taxa specific to each amplic
 
 __11.__ Generate bar plots.
 
-__12.__ Generate Shannon diversity index.
+__12.__ Generate Shannon diversity outcomes.
 
 __13.__ Calculate Cmin for SRS normalization.
 
-__14.__ Claculate taxa richness.
+__14.__ Calculate taxa richness.
 
 __15.__ Constione with DNA-BSAM-R.R
 
 __Installation__
 
-This pipeline should be run in a Qiime2 conda environment. Currently tested environments include Qiime2-2021.2.
+This pipeline should be run in a QIIME2 Conda environment. Currently tested environments include QIIME2-2021.2.
 
-Create a directory name Qiime2. Inside this, create a directory called Scripts. Copy the Qiime2.py script into this directory.
+Create a directory name QIIME2. Inside this, create a directory called Scripts. Copy the DNA-BSAM.py script into this directory.
 
 __Getting started__
 
-Create a directory for your project in the Qiime2 directory. Inside this new directory, create a raw_data directory and place your raw data there.
+Create a directory for your project in the QIIME2 directory. Inside this new directory, create a raw_data directory and place your raw data there.
 
-Classifiers Classifiers can be trained for Qiime2 using the instructions located here https://https://docs.qiime2.org/2022.2/tutorials/feature-classifier/.
+Classifiers Classifiers can be trained for QIIME2 using the instructions located here https://https://docs.qiime2.org/2022.2/tutorials/feature-classifier/.
 
 Example usage:
 ```
-python Scripts/Qiime2.py --input 16S_project/raw_data/ --output 16S_project/ --q2_classifier silva-138-99-515-806-nb-classifier.qza --amplicon 16S --cutadapt_times 2 --filter_m_ie exclude --filter_list mitochondria,chloroplast,archaea --classify_threads 20 --classify_conf 0.7
+python DNA-BSAM.py --input 16S_project/raw_data/ --output 16S_project/ --q2_classifier silva-138-99-515-806-nb-classifier.qza --amplicon 16S --cutadapt_times 2 --filter_m_ie exclude --filter_list mitochondria,chloroplast,archaea --classify_threads 20 --classify_conf 0.7
 ```
 
 Parameters:
@@ -83,21 +83,20 @@ optional arguments:
                         more choices.
   --primer_file PRIMER_FILE
                         Tab separated list of the amplicon and the primers
-                        used. Follow the example in the example provided.
-                        Default /home/smcgreig/Scripts/Qiime2/primers.tsv
+                        used. Follow the example in the example provided.                       
   --create_dirs {Y,N}   Creates the directory structure. Default Y.
   --metadata {Y,N}      Create metadata file. Default Y.
-  --import_q2 {Y,N}     Import data into qiime2. Default Y.
-  --cutadapt {Y,N}      Run cutadapt. Default Y.
-  --dada2 {Y,N}         Run dada2. Default Y.
-  --chimera {Y,N}       Run uchime for chimera removal. Default Y.
+  --import_q2 {Y,N}     Import data into QIIME2. Default Y.
+  --cutadapt {Y,N}      Run Cutadapt. Default Y.
+  --dada2 {Y,N}         Run DADA2. Default Y.
+  --chimera {Y,N}       Run UCHIME for chimera removal. Default Y.
   --features {Y,N}      Generate features from chimera removed data. Default
                         Y.
   --cluster {Y,N}       Generate clustered features. Default Y.
   --filter {Y,N}        Filter samples. Default Y.
   --classify {Y,N}      Classify features. Default Y.
   --barplots {Y,N}      Generate barplots. Default Y.
-  --shannon {Y,N}       Generate shannon alpha diversity stats. Default Y.
+  --shannon {Y,N}       Generate Shannon diversity outcomes. Default Y.
   --srs {Y,N}           Run SRS. Default Y.
   --richness {Y,N}      Calculate taxa richness. Default Y.
   --cutadapt_times CUTADAPT_TIMES
@@ -130,11 +129,7 @@ optional arguments:
                         The confidence required for a successful
                         classification. Default 0.7.
   --vsearch_db VSEARCH_DB
-                        The path to the database sequence file. Default /data/
-                        bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi
-                        /18S_nhmmer_final_seqs_uniq.qza
+                        The path to the database sequence file.
   --vsearch_taxonomy VSEARCH_TAXONOMY
-                        The path to the database taxonomy file. Default /data/
-                        bigbio_00/smcgreig/18S_nematode/18S_nematode_full_ncbi
-                        /18S_nhmmer_final_taxa_uniq.qza
+                        The path to the database taxonomy file.
 ```
