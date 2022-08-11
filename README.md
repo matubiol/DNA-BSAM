@@ -1,5 +1,5 @@
 # DNA-BSAM
-This is essentially a wrapper script that helps to automate some of the Qiime2 steps. The pipeline works as follows:
+This is essentially a wrapper script that helps to automate some of the QIIME2 steps. The pipeline works as follows:
 
 __1.__ Create directories and a proxy metadata file including just filenames and an arbitary metadata column.
 
